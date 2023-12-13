@@ -82,19 +82,4 @@ jobs:
     
               push: true
     
-<<<<<<< HEAD
               tags: ghcr.io/hosea-imbo1/tos:latest
-=======
-              tags: ghcr.io/hosea-imbo1/tos:latest
-      with:
-
-        distribution: 'adopt'
-
-        java-version: 14
-
-    - name: Run all defined tests and generate war with Maven
-
-      run: mvn -B verify --file pom.xml
-
-    - run: ls ${GITHUB_WORKSPACE}/target/*.jar
->>>>>>> 45b7ab0619d32ccd9cf08f0a7377ad73ab996164
