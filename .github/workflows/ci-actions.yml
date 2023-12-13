@@ -32,20 +32,57 @@ jobs:
 
       run: mvn -B compile --file pom.xml
 
-  verify:
+  verify-and-package:
 
-    needs: build
-
-    runs-on: ubuntu-latest
-
-    steps:
-
-    - uses: actions/checkout@v3
-
-    - name: Set up JDK 14
-
-      uses: actions/setup-java@v3
-
+        needs: build
+    
+        runs-on: ubuntu-latest
+    
+        steps:
+    
+        - uses: actions/checkout@v3
+    
+        - name: Set up JDK 14
+    
+          uses: actions/setup-java@v3
+    
+          with:
+    
+            distribution: 'adopt'
+    
+            java-version: 14
+    
+        - name: Run all defined tests and generate war with Maven
+    
+          run: mvn -B verify --file pom.xml
+    
+        -
+    
+            name: Login to GHCR.IO
+    
+            uses: docker/login-action@v2
+    
+            with:
+    
+              registry: ghcr.io
+    
+              username: "hosea-imbo1"
+    
+              password: ${{ secrets.PAT }}
+    
+        -
+    
+            name: Build and push
+    
+            uses: docker/build-push-action@v3
+    
+            with:
+    
+              context: .
+    
+              push: true
+    
+              tags: ghcr.io/hosea-imbo1/tos:latest
       with:
 
         distribution: 'adopt'
